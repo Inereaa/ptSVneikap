@@ -9,9 +9,6 @@ RUN apt-get update && \
 # Habilito mod_userdir para el espacio de usuarios
 RUN sed -i 's/#LoadModule userdir_module/LoadModule userdir_module/' /usr/local/apache2/conf/httpd.conf
 
-# Copio la configuración de UserDir
-COPY ./tf/httpd-userdir.conf /usr/local/apache2/conf/extra/
-
 # Copio los archivos de la página web
 COPY ./index.es.html /usr/local/apache2/htdocs/
 COPY ./index.en.html /usr/local/apache2/htdocs/
