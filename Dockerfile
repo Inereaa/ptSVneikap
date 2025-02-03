@@ -14,7 +14,8 @@ RUN sed -i 's/#LoadModule userdir_module/LoadModule userdir_module/' /usr/local/
 COPY ./tf/httpd-userdir.conf /usr/local/apache2/conf/extra/
 
 # Copio los archivos de la página web
-COPY ./index.html /usr/local/apache2/htdocs/
+COPY ./index.es.html /usr/local/apache2/htdocs/
+COPY ./index.en.html /usr/local/apache2/htdocs/
 COPY ./docs/ /usr/local/apache2/htdocs/docs/
 COPY ./css/ /usr/local/apache2/htdocs/css/
 COPY ./js/ /usr/local/apache2/htdocs/js/

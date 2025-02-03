@@ -28,12 +28,12 @@ resource "aws_instance" "mi_instancia" {
     # Creo usuarios y sus directorios públicos
     sudo useradd -m usuario1
     sudo mkdir -p /home/usuario1/public_html
-    echo "<h1>Hola desde usuario1</h1>" | sudo tee /home/usuario1/public_html/index.html
+    echo "<h1>Hola desde usuario1</h1>" | sudo tee /home/usuario1/public_html/index.es.html
     sudo chown -R usuario1:usuario1 /home/usuario1/public_html
 
     sudo useradd -m usuario2
     sudo mkdir -p /home/usuario2/public_html
-    echo "<h1>Hola desde usuario2</h1>" | sudo tee /home/usuario2/public_html/index.html
+    echo "<h1>Hola desde usuario2</h1>" | sudo tee /home/usuario2/public_html/index.es.html
     sudo chown -R usuario2:usuario2 /home/usuario2/public_html
 
     # Ejecuto el contenedor
