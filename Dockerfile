@@ -10,7 +10,7 @@ RUN apt-get update && \
 RUN sed -i 's/#LoadModule userdir_module/LoadModule userdir_module/' /usr/local/apache2/conf/httpd.conf
 
 # Copio los archivos de la página web
-COPY ./index.es.html /usr/local/apache2/htdocs/
+COPY ./index.es.html /usr/local/apache2/htdocs/index.html
 COPY ./index.en.html /usr/local/apache2/htdocs/
 COPY ./docs/ /usr/local/apache2/htdocs/docs/
 COPY ./css/ /usr/local/apache2/htdocs/css/

@@ -36,6 +36,10 @@ resource "aws_instance" "mi_instancia" {
     echo "<h1>Hola desde usuario2</h1>" | sudo tee /home/usuario2/public_html/index.es.html
     sudo chown -R usuario2:usuario2 /home/usuario2/public_html
 
+    # Permisos para las páginas de errores
+    sudo chmod 644 /var/www/html/tf/404.html
+    sudo chmod 644 /var/www/html/tf/500.html
+
     # Ejecuto el contenedor
     sudo docker run -d -p ${var.http_port}:80 -p ${var.https_port}:443 --name neikap \
       -v /home:/home \
