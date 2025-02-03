@@ -16,3 +16,14 @@ variable "public_subnet_cidr" {
   type        = string
   default     = "10.0.1.0/24"
 }
+
+variable "http_port" {
+  description = "Puerto HTTP principal"
+  default     = 80
+}
+
+variable "https_port" {
+  description = "Puerto HTTPS"
+  default     = 443
+}
+
