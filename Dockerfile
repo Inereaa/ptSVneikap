@@ -7,8 +7,7 @@ RUN apt-get update && \
     apt-get install -y npm nodejs
 
 # Habilito mod_userdir para el espacio de usuarios
-RUN sed -i 's/#LoadModule userdir_module/LoadModule userdir_module/' /usr/local/apache2/conf/httpd.conf && \
-    echo "IncludeOptional conf/extra/httpd-userdir.conf" >> /usr/local/apache2/conf/httpd.conf
+RUN sed -i 's/#LoadModule userdir_module/LoadModule userdir_module/' /usr/local/apache2/conf/httpd.conf
 
 # Copio la configuración de UserDir
 COPY ./tf/httpd-userdir.conf /usr/local/apache2/conf/extra/
