@@ -55,7 +55,7 @@ RUN apt-get install -y ssl-cert && \
 
 # Exponer puertos
 # CAMBIADO PUERTO DE PETICIONES POR DEFECTO
-EXPOSE 8081 443
+EXPOSE 8080 443 80
 
 # Instrucción por defecto
 CMD ["httpd-foreground"]

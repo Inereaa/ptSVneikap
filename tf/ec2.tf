@@ -28,7 +28,7 @@ resource "aws_instance" "mi_instancia" {
 
     # Ejecuto el contenedor y le pongo un nombre
     # CAMBIADO PUERTO DE PETICIONES POR DEFECTO
-    sudo docker run -d -p 8081:8081 -p 443:443 --name neikap apache-server
+    sudo docker run -d -p 8080:8080 -p 443:443 --name neikap apache-server
 
   EOF
 
