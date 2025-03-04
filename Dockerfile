@@ -6,8 +6,13 @@ FROM httpd:2.4
 RUN apt-get update && \
     apt-get install -y npm nodejs
 
-# Habilito mod_userdir para el espacio de usuarios
-RUN sed -i 's/#LoadModule userdir_module/LoadModule userdir_module/' /usr/local/apache2/conf/httpd.conf
+# Habilito mod_userdir para el espacio de usuarios y más necesarios
+RUN sed -i 's/#LoadModule negotiation_module/LoadModule negotiation_module/' /usr/local/apache2/conf/httpd.conf && \
+    sed -i 's/#LoadModule rewrite_module/LoadModule rewrite_module/' /usr/local/apache2/conf/httpd.conf && \
+    sed -i 's/#LoadModule ssl_module/LoadModule ssl_module/' /usr/local/apache2/conf/httpd.conf && \
+    sed -i 's/#LoadModule headers_module/LoadModule headers_module/' /usr/local/apache2/conf/httpd.conf && \
+    sed -i 's/#LoadModule include_module/LoadModule include_module/' /usr/local/apache2/conf/httpd.conf && \
+    sed -i 's/#LoadModule userdir_module/LoadModule userdir_module/' /usr/local/apache2/conf/httpd.conf
 
 # PARA DIRECTORIO POR DEFECTO Y SITIOS VIRTUALES
 RUN mkdir -p /var/www/neikap /var/www/test
