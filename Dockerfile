@@ -34,8 +34,8 @@ COPY ./js/ /var/www/neikap/js/
 COPY ./db/ /var/www/neikap/db/
 
 # PÁGINAS DE ERRORES PERSONALIZADAS
-COPY ./tf/404.html /var/www/neikap/
-COPY ./tf/500.html /var/www/neikap/
+COPY ./tf/404.html /var/www/neikap/errores
+COPY ./tf/500.html /var/www/neikap/errores
 
 # SITIOS VIRTUALES
 COPY ./index.html /var/www/test
