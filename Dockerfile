@@ -15,7 +15,7 @@ RUN sed -i 's/#LoadModule negotiation_module/LoadModule negotiation_module/' /us
     sed -i 's/#LoadModule userdir_module/LoadModule userdir_module/' /usr/local/apache2/conf/httpd.conf
 
 # PARA DIRECTORIO POR DEFECTO Y SITIOS VIRTUALES
-RUN mkdir -p /var/www/neikap /var/www/test
+RUN mkdir -p /var/www/neikap /var/www/test /var/www/neikap/docs /var/www/neikap/css /var/www/neikap/js /var/www/neikap/db /var/www/neikap/errores
 
 # ESPACIO DE USUARIOS
 RUN useradd -m testuser && \
