@@ -9,13 +9,31 @@ RUN apt-get update && \
 # Habilito mod_userdir para el espacio de usuarios
 RUN sed -i 's/#LoadModule userdir_module/LoadModule userdir_module/' /usr/local/apache2/conf/httpd.conf
 
+# PARA DIRECTORIO POR DEFECTO Y SITIOS VIRTUALES
+RUN mkdir -p /var/www/neikap /var/www/test
+
+# ESPACIO DE USUARIOS
+RUN useradd -m testuser && \
+    mkdir -p /home/testuser/public_html && \
+    echo "<h1>Espacio de usuario funciona</h1>" > /home/testuser/public_html/index.html && \
+    chown -R testuser:testuser /home/testuser/public_html && \
+    chmod -R 755 /home/testuser/public_html
+
 # Copio los archivos de la página web
-COPY ./index.es.html /usr/local/apache2/htdocs/index.html
-COPY ./index.en.html /usr/local/apache2/htdocs/
-COPY ./docs/ /usr/local/apache2/htdocs/docs/
-COPY ./css/ /usr/local/apache2/htdocs/css/
-COPY ./js/ /usr/local/apache2/htdocs/js/
-COPY ./db/ /usr/local/apache2/htdocs/db/
+# CAMBIADO DIRECTORIO POR DEFECTO
+COPY ./index.es.html /var/www/neikap/index.html
+COPY ./index.en.html /var/www/neikap/
+COPY ./docs/ /var/www/neikap/docs/
+COPY ./css/ /var/www/neikap/css/
+COPY ./js/ /var/www/neikap/js/
+COPY ./db/ /var/www/neikap/db/
+
+# PÁGINAS DE ERRORES PERSONALIZADAS
+COPY ./tf/404.html /var/www/neikap/
+COPY ./tf/500.html /var/www/neikap/
+
+# SITIOS VIRTUALES
+COPY ./index.html /var/www/test
 
 # Copio los certificados SSL
 COPY ./tf/certificate.crt /usr/local/apache2/conf/
@@ -31,8 +49,8 @@ RUN apt-get install -y ssl-cert && \
     echo "Include /usr/local/apache2/conf/extra/httpd-ssl.conf" >> /usr/local/apache2/conf/httpd.conf
 
 # Exponer puertos
-EXPOSE 80
-EXPOSE 443
+# CAMBIADO PUERTO DE PETICIONES POR DEFECTO
+EXPOSE 8081 443
 
 # Instrucción por defecto
 CMD ["httpd-foreground"]

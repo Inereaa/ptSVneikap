@@ -10,40 +10,26 @@ resource "aws_instance" "mi_instancia" {
   user_data = <<-EOF
     #!/bin/bash
 
-    # Actualizo e instalo Docker y Git
+    # Actualizo e instalo docker
     sudo apt-get update -y
-    sudo apt-get install -y docker.io git
+    sudo apt-get install docker.io -y
 
     # Inicio Docker
     sudo systemctl start docker
     sudo systemctl enable docker
 
     # Clono el repositorio
+    sudo apt-get install git -y
     sudo git clone https://github.com/Inereaa/ptSVneikap.git /var/www/html
 
     # Construyo la imagen de Docker
     cd /var/www/html
     sudo docker build -t apache-server .
 
-    # Creo usuarios y sus directorios públicos
-    sudo useradd -m usuario1
-    sudo mkdir -p /home/usuario1/public_html
-    echo "<h1>Hola desde usuario1</h1>" | sudo tee /home/usuario1/public_html/index.es.html
-    sudo chown -R usuario1:usuario1 /home/usuario1/public_html
+    # Ejecuto el contenedor y le pongo un nombre
+    # CAMBIADO PUERTO DE PETICIONES POR DEFECTO
+    sudo docker run -d -p 8081:8081 -p 443:443 --name neikap apache-server
 
-    sudo useradd -m usuario2
-    sudo mkdir -p /home/usuario2/public_html
-    echo "<h1>Hola desde usuario2</h1>" | sudo tee /home/usuario2/public_html/index.es.html
-    sudo chown -R usuario2:usuario2 /home/usuario2/public_html
-
-    # Permisos para las páginas de errores
-    sudo chmod 644 /var/www/html/tf/404.html
-    sudo chmod 644 /var/www/html/tf/500.html
-
-    # Ejecuto el contenedor
-    sudo docker run -d -p ${var.http_port}:80 -p ${var.https_port}:443 --name neikap \
-      -v /home:/home \
-      apache-server
   EOF
 
   tags = {
