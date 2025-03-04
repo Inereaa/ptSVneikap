@@ -1,0 +1,49 @@
+
+# Uso una imagen base de NGINX
+FROM nginx:alpine
+
+# Instalo Node.js y json-server
+RUN apk update && \
+    apk add --no-cache nodejs npm
+
+# Habilito la instalación de certificados SSL
+RUN apk add --no-cache openssl
+
+# PARA DIRECTORIO POR DEFECTO Y SITIOS VIRTUALES
+RUN mkdir -p /usr/share/nginx/html/neikap /usr/share/nginx/html/test /usr/share/nginx/html/neikap/docs /usr/share/nginx/html/neikap/css /usr/share/nginx/html/neikap/js /usr/share/nginx/html/neikap/db /usr/share/nginx/html/neikap/errores
+
+# ESPACIO DE USUARIOS
+RUN adduser -D testuser && \
+    mkdir -p /home/testuser/public_html && \
+    echo "<h1>Espacio de usuario funciona</h1>" > /home/testuser/public_html/index.html && \
+    chown -R testuser:testuser /home/testuser/public_html && \
+    chmod -R 755 /home/testuser/public_html
+
+# Copio los archivos de la página web
+COPY ./index.es.html /usr/share/nginx/html/neikap/index.html
+COPY ./index.en.html /usr/share/nginx/html/neikap/
+COPY ./docs/ /usr/share/nginx/html/neikap/docs/
+COPY ./css/ /usr/share/nginx/html/neikap/css/
+COPY ./js/ /usr/share/nginx/html/neikap/js/
+COPY ./db/ /usr/share/nginx/html/neikap/db/
+
+# PÁGINAS DE ERRORES PERSONALIZADAS
+COPY ./tf/404.html /usr/share/nginx/html/neikap/errores
+COPY ./tf/500.html /usr/share/nginx/html/neikap/errores
+
+# SITIOS VIRTUALES
+COPY ./index.html /usr/share/nginx/html/test
+
+# Copio los certificados SSL
+COPY ./tf/certificate.crt /etc/ssl/certs/
+COPY ./tf/ca_bundle.crt /etc/ssl/certs/
+COPY ./tf/private.key /etc/ssl/private/
+
+# Configuración NGINX SSL personalizada
+COPY ./tf/nginx-ssl.conf /etc/nginx/conf.d/
+
+# Exponer puertos
+EXPOSE 8080 443 80
+
+# Instrucción por defecto
+CMD ["nginx", "-g", "daemon off;"]
